@@ -17,7 +17,7 @@ const Button = styled("button", {
 });
 
 const Home: NextPage = () => {
-  return <Button>Button</Button>;
+  return <></>;
 };
 
 export default Home;

@@ -3,7 +3,6 @@ import { styled } from "../..";
 export const Product = styled("a", {
   background: "linear-gradient(180deg, #1ea483 0%, #7465d4 100%)",
   borderRadius: 8,
-  padding: "0.25rem",
   cursor: "pointer",
   position: "relative",
   overflow: "hidden",

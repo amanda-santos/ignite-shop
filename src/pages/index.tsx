@@ -1,5 +1,6 @@
+import { GetStaticProps } from "next";
 import Image from "next/future/image";
-import { GetServerSideProps } from "next";
+import Head from "next/head";
 import Stripe from "stripe";
 import { useKeenSlider } from "keen-slider/react";
 
@@ -26,24 +27,29 @@ export default function Home({ products }: HomeProps) {
   });
 
   return (
-    <Container ref={sliderRef} className="keen-slider">
-      {products.map((product) => {
-        return (
-          <Product key={product.id} className="keen-slider__slide">
-            <Image src={product.imageUrl} width={520} height={480} alt="" />
+    <>
+      <Head>
+        <title>Ignite Shop</title>
+      </Head>
+      <Container ref={sliderRef} className="keen-slider">
+        {products.map((product) => {
+          return (
+            <Product key={product.id} className="keen-slider__slide">
+              <Image src={product.imageUrl} width={520} height={480} alt="" />
 
-            <footer>
-              <strong>{product.name}</strong>
-              <span>{product.price}</span>
-            </footer>
-          </Product>
-        );
-      })}
-    </Container>
+              <footer>
+                <strong>{product.name}</strong>
+                <span>{product.price}</span>
+              </footer>
+            </Product>
+          );
+        })}
+      </Container>
+    </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ["data.default_price"],
   });
@@ -54,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     return {
       id: product.id,
       name: product.name,
-      imageUrl: product.images[0],
+      // imageUrl: product.images[0],
       price: price.unit_amount ?? 0 / 100,
     };
   });
@@ -63,5 +69,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: {
       products,
     },
+    revalidate: 60 * 60 * 2, // 2 hours
   };
 };

@@ -1,17 +1,24 @@
-import type { NextPage } from "next";
 import Image from "next/future/image";
+import { GetServerSideProps } from "next";
+import Stripe from "stripe";
 import { useKeenSlider } from "keen-slider/react";
 
+import { stripe } from "../lib/stripe";
 import { Container, Product } from "../styles/pages/home";
-
-import tshirt1 from "../assets/t-shirts/1.png";
-import tshirt2 from "../assets/t-shirts/2.png";
-import tshirt3 from "../assets/t-shirts/3.png";
 
 import "keen-slider/keen-slider.min.css";
 
-const Home: NextPage = () => {
-  const [sliderRef] = useKeenSlider<HTMLDivElement>({
+interface HomeProps {
+  products: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    price: number;
+  }[];
+}
+
+export default function Home({ products }: HomeProps) {
+  const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
       spacing: 48,
@@ -20,43 +27,41 @@ const Home: NextPage = () => {
 
   return (
     <Container ref={sliderRef} className="keen-slider">
-      <Product className="keen-slider__slide">
-        <Image src={tshirt1} width={520} height={480} alt="" />
+      {products.map((product) => {
+        return (
+          <Product key={product.id} className="keen-slider__slide">
+            <Image src={product.imageUrl} width={520} height={480} alt="" />
 
-        <footer>
-          <strong>TShirt X</strong>
-          <span>$ 179.90</span>
-        </footer>
-      </Product>
-
-      <Product className="keen-slider__slide">
-        <Image src={tshirt2} width={520} height={480} alt="" />
-
-        <footer>
-          <strong>TShirt X</strong>
-          <span>$ 179.90</span>
-        </footer>
-      </Product>
-
-      <Product className="keen-slider__slide">
-        <Image src={tshirt3} width={520} height={480} alt="" />
-
-        <footer>
-          <strong>TShirt X</strong>
-          <span>$ 179.90</span>
-        </footer>
-      </Product>
-
-      <Product className="keen-slider__slide">
-        <Image src={tshirt2} width={520} height={480} alt="" />
-
-        <footer>
-          <strong>TShirt X</strong>
-          <span>$ 179.90</span>
-        </footer>
-      </Product>
+            <footer>
+              <strong>{product.name}</strong>
+              <span>{product.price}</span>
+            </footer>
+          </Product>
+        );
+      })}
     </Container>
   );
-};
+}
 
-export default Home;
+export const getServerSideProps: GetServerSideProps = async () => {
+  const response = await stripe.products.list({
+    expand: ["data.default_price"],
+  });
+
+  const products = response.data.map((product) => {
+    const price = product.default_price as Stripe.Price;
+
+    return {
+      id: product.id,
+      name: product.name,
+      imageUrl: product.images[0],
+      price: price.unit_amount ?? 0 / 100,
+    };
+  });
+
+  return {
+    props: {
+      products,
+    },
+  };
+};

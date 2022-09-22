@@ -1,6 +1,7 @@
 import Image from "next/future/image";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Stripe from "stripe";
+import axios from "axios";
 
 import { Product as ProductType } from "../../types";
 import { stripe } from "../../lib/stripe";
@@ -11,6 +12,8 @@ import {
   ProductDetails,
 } from "../../styles/pages/product";
 import { useRouter } from "next/router";
+import { formatPrice } from "../../utils/formatPrice";
+import { useState } from "react";
 
 type ProductProps = {
   product: ProductType;
@@ -18,9 +21,32 @@ type ProductProps = {
 
 export default function Product({ product }: ProductProps) {
   const { isFallback } = useRouter();
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false);
+
+  const handleBuyNowClick = async () => {
+    try {
+      setIsCreatingCheckoutSession(true);
+
+      const response = await axios.post("/api/checkout", {
+        priceId: product.price.id,
+      });
+
+      const { checkoutUrl } = response.data;
+
+      window.location.href = checkoutUrl;
+    } catch {
+      setIsCreatingCheckoutSession(false);
+
+      // TODO: Datadog or Sentry
+      alert(
+        "An error occurred while trying to buy this product. Please try again later."
+      );
+    }
+  };
 
   if (isFallback) {
-    return <p>Loading...</p>;
+    return <ProductContainer>Loading...</ProductContainer>;
   }
 
   return (
@@ -31,11 +57,16 @@ export default function Product({ product }: ProductProps) {
 
       <ProductDetails>
         <h1>{product.name}</h1>
-        <span>{product.price}</span>
+        <span>{product.price.value}</span>
 
         <p>{product.description}</p>
 
-        <button>Buy now</button>
+        <button
+          disabled={isCreatingCheckoutSession}
+          onClick={handleBuyNowClick}
+        >
+          Buy now
+        </button>
       </ProductDetails>
     </ProductContainer>
   );
@@ -60,21 +91,28 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
     : null;
 
   const price = product?.default_price as Stripe.Price;
-  const formattedPrice = price.unit_amount ? price.unit_amount / 100 : 0;
+
+  if (!product) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const formattedProduct: ProductType = {
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    imageUrl: product.images[0],
+    price: {
+      id: price.id,
+      value: formatPrice(price.unit_amount ?? 0),
+    },
+  };
 
   return {
     props: {
-      product: {
-        id: product?.id,
-        name: product?.name,
-        imageUrl: product?.images[0],
-        price: new Intl.NumberFormat("en", {
-          style: "currency",
-          currency: "USD",
-        }).format(formattedPrice),
-        description: product?.description,
-      },
+      product: formattedProduct,
     },
-    revalidate: 60 * 60 * 1, // 1 hours
+    revalidate: 60 * 60 * 1, // 1 hour
   };
 };

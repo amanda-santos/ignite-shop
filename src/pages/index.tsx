@@ -7,6 +7,7 @@ import { useKeenSlider } from "keen-slider/react";
 
 import { Product as ProductType } from "../types";
 import { stripe } from "../lib/stripe";
+import { formatPrice } from "../utils/formatPrice";
 import { Container, Product } from "../styles/pages/home";
 
 import "keen-slider/keen-slider.min.css";
@@ -31,13 +32,17 @@ export default function Home({ products }: HomeProps) {
       <Container ref={sliderRef} className="keen-slider">
         {products.map((product) => {
           return (
-            <Link href={`/product/${product.id}`} key={product.id}>
+            <Link
+              href={`/product/${product.id}`}
+              key={product.id}
+              prefetch={false}
+            >
               <Product className="keen-slider__slide">
                 <Image src={product.imageUrl} width={520} height={480} alt="" />
 
                 <footer>
                   <strong>{product.name}</strong>
-                  <span>{product.price}</span>
+                  <span>{product.price.value}</span>
                 </footer>
               </Product>
             </Link>
@@ -54,18 +59,18 @@ export const getStaticProps: GetStaticProps = async () => {
     active: true,
   });
 
-  const products = response.data.map((product) => {
+  const products: ProductType[] = response.data.map((product) => {
     const price = product.default_price as Stripe.Price;
-    const formattedPrice = price.unit_amount ? price.unit_amount / 100 : 0;
 
     return {
       id: product.id,
       name: product.name,
+      description: product.description,
       imageUrl: product.images[0],
-      price: new Intl.NumberFormat("en", {
-        style: "currency",
-        currency: "USD",
-      }).format(formattedPrice),
+      price: {
+        id: price.id,
+        value: formatPrice(price.unit_amount ?? 0),
+      },
     };
   });
 

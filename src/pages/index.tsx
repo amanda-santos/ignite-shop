@@ -5,19 +5,15 @@ import Link from "next/link";
 import Stripe from "stripe";
 import { useKeenSlider } from "keen-slider/react";
 
+import { Product as ProductType } from "../types";
 import { stripe } from "../lib/stripe";
 import { Container, Product } from "../styles/pages/home";
 
 import "keen-slider/keen-slider.min.css";
 
-interface HomeProps {
-  products: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: number;
-  }[];
-}
+type HomeProps = {
+  products: ProductType[];
+};
 
 export default function Home({ products }: HomeProps) {
   const [sliderRef] = useKeenSlider({

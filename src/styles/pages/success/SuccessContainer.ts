@@ -11,6 +11,7 @@ export const SuccessContainer = styled("main", {
   h1: {
     fontSize: "$2xl",
     color: "$gray100",
+    marginBottom: "0",
   },
 
   p: {
@@ -24,7 +25,7 @@ export const SuccessContainer = styled("main", {
 
   a: {
     display: "block",
-    marginTop: "5rem",
+    marginTop: "3rem",
     fontSize: "$lg",
     color: "$green500",
     textDecoration: "none",

@@ -1,5 +1,7 @@
-import Image from "next/future/image";
+import { useState } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
+import Image from "next/future/image";
+import Head from "next/head";
 import Stripe from "stripe";
 import axios from "axios";
 
@@ -13,7 +15,6 @@ import {
 } from "../../styles/pages/product";
 import { useRouter } from "next/router";
 import { formatPrice } from "../../utils/formatPrice";
-import { useState } from "react";
 
 type ProductProps = {
   product: ProductType;
@@ -50,25 +51,30 @@ export default function Product({ product }: ProductProps) {
   }
 
   return (
-    <ProductContainer>
-      <ImageContainer>
-        <Image src={product.imageUrl} width={520} height={480} alt="" />
-      </ImageContainer>
+    <>
+      <Head>
+        <title>{product.name} | Ignite Shop</title>
+      </Head>
+      <ProductContainer>
+        <ImageContainer>
+          <Image src={product.imageUrl} width={520} height={480} alt="" />
+        </ImageContainer>
 
-      <ProductDetails>
-        <h1>{product.name}</h1>
-        <span>{product.price.value}</span>
+        <ProductDetails>
+          <h1>{product.name}</h1>
+          <span>{product.price.value}</span>
 
-        <p>{product.description}</p>
+          <p>{product.description}</p>
 
-        <button
-          disabled={isCreatingCheckoutSession}
-          onClick={handleBuyNowClick}
-        >
-          Buy now
-        </button>
-      </ProductDetails>
-    </ProductContainer>
+          <button
+            disabled={isCreatingCheckoutSession}
+            onClick={handleBuyNowClick}
+          >
+            Buy now
+          </button>
+        </ProductDetails>
+      </ProductContainer>
+    </>
   );
 }
 

@@ -3,6 +3,7 @@ import { styled } from "../..";
 export const ProductDetails = styled("div", {
   display: "flex",
   flexDirection: "column",
+  maxWidth: "100%",
 
   h1: {
     fontSize: "$2xl",
@@ -24,7 +25,7 @@ export const ProductDetails = styled("div", {
   },
 
   button: {
-    marginTop: "auto",
+    marginTop: "2rem",
     backgroundColor: "$green500",
     border: 0,
     color: "$white",
@@ -34,6 +35,7 @@ export const ProductDetails = styled("div", {
     fontWeight: "bold",
     fontSize: "$md",
     transition: "all 0.2s",
+    maxWidth: "100%",
 
     "&:disabled": {
       opacity: 0.6,
@@ -42,6 +44,12 @@ export const ProductDetails = styled("div", {
 
     "&:not(:disabled):hover": {
       backgroundColor: "$green300",
+    },
+  },
+
+  "@xl": {
+    button: {
+      marginTop: "auto",
     },
   },
 });

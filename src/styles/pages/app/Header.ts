@@ -1,12 +1,21 @@
 import { styled } from "../..";
 
 export const Header = styled("header", {
-  padding: "2rem 0",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+
+  padding: "2rem 4rem",
   width: "100%",
   maxWidth: 1180,
-  margin: "0 auto",
+  margin: "2rem auto 0 auto",
 
   img: {
     cursor: "pointer",
+  },
+
+  "@xl": {
+    justifyContent: "flex-start",
+    padding: "2rem 0",
   },
 });

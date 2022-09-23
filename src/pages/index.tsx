@@ -8,8 +8,10 @@ import { useKeenSlider } from "keen-slider/react";
 import { Product as ProductType } from "../types";
 import { stripe } from "../lib/stripe";
 import { formatPrice } from "../utils/formatPrice";
-import { Container, Product } from "../styles/pages/home";
+import { useWindowSize } from "../hooks/useWindowSize";
+import { BREAKPOINTS } from "../constants";
 
+import { Container, Product } from "../styles/pages/home";
 import "keen-slider/keen-slider.min.css";
 
 type HomeProps = {
@@ -23,13 +25,17 @@ export default function Home({ products }: HomeProps) {
       spacing: 48,
     },
   });
+  const { width } = useWindowSize();
 
   return (
     <>
       <Head>
         <title>Home | Ignite Shop</title>
       </Head>
-      <Container ref={sliderRef} className="keen-slider">
+      <Container
+        ref={width > BREAKPOINTS.lg ? sliderRef : null}
+        className={width > BREAKPOINTS.lg ? "keen-slider" : ""}
+      >
         {products.map((product) => {
           return (
             <Link

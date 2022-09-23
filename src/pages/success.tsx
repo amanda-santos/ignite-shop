@@ -31,7 +31,7 @@ export default function Success({ costumerName, product }: SuccessProps) {
 
         <p>
           Yayyy <strong>{costumerName}</strong>, your{" "}
-          <strong>{product.name}</strong> is already on its way to your address
+          <strong>{product.name}</strong> is already on its way to your address.
         </p>
 
         <Link href="/">Back to catalog</Link>

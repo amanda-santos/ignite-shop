@@ -7,6 +7,15 @@ export const globalStyles = globalCss({
     boxSizing: "border-box",
   },
 
+  ":focus": {
+    outline: 0,
+    boxShadow: "0 0 0 2px $green300",
+  },
+
+  html: {
+    fontSize: "88.5%",
+  },
+
   body: {
     backgroundColor: "$gray900",
     color: "$gray100",
@@ -16,5 +25,11 @@ export const globalStyles = globalCss({
   "body, input, textarea, button": {
     fontFamily: "Roboto",
     fontWeight: 400,
+  },
+
+  "@xl": {
+    html: {
+      fontSize: "82.5%",
+    },
   },
 });

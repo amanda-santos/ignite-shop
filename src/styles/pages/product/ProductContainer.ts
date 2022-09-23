@@ -7,7 +7,7 @@ export const ProductContainer = styled("main", {
   justifyContent: "center",
   gap: "4rem",
   maxWidth: "100%",
-  padding: "0 2rem",
+  padding: "0 4rem 4rem 4rem",
 
   "@xl": {
     flexDirection: "row",
@@ -15,6 +15,5 @@ export const ProductContainer = styled("main", {
     justifyItems: "initial",
     margin: "0 auto",
     maxWidth: 1180,
-    padding: "0",
   },
 });

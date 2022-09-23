@@ -7,7 +7,7 @@ export const Container = styled("main", {
   minHeight: 656,
   gap: "2rem",
   padding: "0 4rem",
-  margin: "2rem 0",
+  margin: "0 0 2rem 0",
 
   a: {
     color: "$gray300",
@@ -16,7 +16,7 @@ export const Container = styled("main", {
   "@lg": {
     flexDirection: "row",
     maxWidth: "calc(100vw - ((100vw - 1180px) / 2))",
-    marginLeft: "auto",
+    margin: "2rem 0 0 auto",
     gap: 0,
   },
 });

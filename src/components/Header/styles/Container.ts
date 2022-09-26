@@ -1,6 +1,6 @@
-import { styled } from "../..";
+import { styled } from "../../../styles";
 
-export const Header = styled("header", {
+export const Container = styled("header", {
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",

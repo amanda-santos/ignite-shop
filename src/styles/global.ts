@@ -13,7 +13,7 @@ export const globalStyles = globalCss({
   },
 
   html: {
-    fontSize: "88.5%",
+    fontSize: "72.5%",
   },
 
   body: {
@@ -23,13 +23,14 @@ export const globalStyles = globalCss({
   },
 
   "body, input, textarea, button": {
+    fontSize: "1.6rem",
     fontFamily: "Roboto",
     fontWeight: 400,
   },
 
   "@xl": {
     html: {
-      fontSize: "82.5%",
+      fontSize: "62.5%",
     },
   },
 });

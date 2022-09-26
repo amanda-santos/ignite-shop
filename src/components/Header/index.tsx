@@ -3,7 +3,7 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { Handbag } from "phosphor-react";
 
-import { Container } from "./styles";
+import { CartButton, Container } from "./styles";
 
 import logoImg from "../../assets/logo.svg";
 
@@ -14,7 +14,9 @@ export const Header = (): ReactElement => {
         <Image src={logoImg} alt="" />
       </Link>
 
-      <Handbag size={32} weight="light" />
+      <CartButton type="button">
+        <Handbag size={24} weight="light" />
+      </CartButton>
     </Container>
   );
 };

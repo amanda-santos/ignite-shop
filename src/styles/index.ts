@@ -26,9 +26,10 @@ export const {
     fontSizes: {
       md: "1.125rem",
       lg: "1.25rem",
-      xl: "1.5rem",
+      xl: "1.58rem",
       "2xl": "2rem",
       "3xl": "2.4rem",
+      "4xl": "2.75rem",
     },
   },
 

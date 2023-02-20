@@ -6,20 +6,20 @@ export const ProductDetails = styled("div", {
   maxWidth: "100%",
 
   h1: {
-    fontSize: "$2xl",
+    fontSize: "$4xl",
     color: "$gray300",
   },
 
   span: {
     marginTop: "1rem",
     display: "block",
-    fontSize: "$2xl",
+    fontSize: "$4xl",
     color: "$green300",
   },
 
   p: {
     marginTop: "2.5rem",
-    fontSize: "$md",
+    fontSize: "$xl",
     lineHeight: 1.6,
     color: "$gray300",
   },
@@ -30,10 +30,10 @@ export const ProductDetails = styled("div", {
     border: 0,
     color: "$white",
     borderRadius: 8,
-    padding: "1.25rem",
+    padding: "2rem 3.2rem",
     cursor: "pointer",
     fontWeight: "bold",
-    fontSize: "$md",
+    fontSize: "$xl",
     transition: "all 0.2s",
     maxWidth: "100%",
 

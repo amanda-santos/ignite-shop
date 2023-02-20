@@ -5,6 +5,10 @@ export const Container = styled("div", {
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  minHeight: "100vh",
+  
   width: "100%",
+
+  "@xl": {
+    minHeight: "100vh",
+  },
 });

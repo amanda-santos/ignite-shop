@@ -6,7 +6,8 @@ export const ProductContainer = styled("main", {
   alignItems: "center",
   justifyContent: "center",
   gap: "4rem",
-  maxWidth: "100%",
+  width: "100%",
+  
   padding: "0 4rem 4rem 4rem",
 
   "@xl": {

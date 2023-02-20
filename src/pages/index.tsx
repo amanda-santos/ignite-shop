@@ -4,6 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Stripe from "stripe";
 import { useKeenSlider } from "keen-slider/react";
+import { Handbag } from "phosphor-react";
 
 import { Product as ProductType } from "../types";
 import { stripe } from "../lib/stripe";
@@ -11,7 +12,7 @@ import { formatPrice } from "../utils/formatPrice";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { BREAKPOINTS } from "../constants";
 
-import { Container, Product } from "../styles/pages/home";
+import { CartButton, Container, Product } from "../styles/pages/home";
 import "keen-slider/keen-slider.min.css";
 
 type HomeProps = {
@@ -38,20 +39,22 @@ export default function Home({ products }: HomeProps) {
       >
         {products.map((product) => {
           return (
-            <Link
-              href={`/product/${product.id}`}
-              key={product.id}
-              prefetch={false}
-            >
-              <Product className="keen-slider__slide">
+            <Product className="keen-slider__slide" key={product.id}>
+              <Link href={`/product/${product.id}`} prefetch={false}>
                 <Image src={product.imageUrl} width={520} height={480} alt="" />
+              </Link>
 
-                <footer>
+              <footer>
+                <Link href={`/product/${product.id}`} prefetch={false}>
                   <strong>{product.name}</strong>
                   <span>{product.price.value}</span>
-                </footer>
-              </Product>
-            </Link>
+                </Link>
+
+                <CartButton type="button">
+                  <Handbag size={32} weight="bold" />
+                </CartButton>
+              </footer>
+            </Product>
           );
         })}
       </Container>

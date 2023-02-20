@@ -9,10 +9,6 @@ export const Container = styled("main", {
   padding: "0 4rem",
   margin: "0 0 2rem 0",
 
-  a: {
-    color: "$gray300",
-  },
-
   "@lg": {
     flexDirection: "row",
     maxWidth: "calc(100vw - ((100vw - 1180px) / 2))",

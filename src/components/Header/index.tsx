@@ -16,6 +16,8 @@ export const Header = (): ReactElement => {
 
       <CartButton type="button">
         <Handbag size={24} weight="light" />
+
+        <span>1</span>
       </CartButton>
     </Container>
   );

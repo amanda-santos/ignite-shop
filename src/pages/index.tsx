@@ -10,6 +10,7 @@ import { Product as ProductType } from "../types";
 import { stripe } from "../lib/stripe";
 import { formatPrice } from "../utils/formatPrice";
 import { useWindowSize } from "../hooks/useWindowSize";
+import { useCart } from "../hooks/useCart";
 import { BREAKPOINTS } from "../constants";
 
 import { CartButton, Container, Product } from "../styles/pages/home";
@@ -26,7 +27,10 @@ export default function Home({ products }: HomeProps) {
       spacing: 48,
     },
   });
+
   const { width } = useWindowSize();
+
+  const { addToCart } = useCart();
 
   return (
     <>
@@ -50,7 +54,7 @@ export default function Home({ products }: HomeProps) {
                   <span>{product.price.value}</span>
                 </Link>
 
-                <CartButton type="button">
+                <CartButton type="button" onClick={() => addToCart(product)}>
                   <Handbag size={32} weight="bold" />
                 </CartButton>
               </footer>

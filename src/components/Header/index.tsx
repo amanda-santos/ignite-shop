@@ -3,13 +3,16 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { Handbag } from "phosphor-react";
 
+import { CartSidebar } from "../CartSidebar";
+import { useCart } from "../../hooks/useCart";
+
 import { CartButton, Container } from "./styles";
 
 import logoImg from "../../assets/logo.svg";
-import { CartSidebar } from "../CartSidebar";
 
 export const Header = (): ReactElement => {
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
+  const { cart } = useCart();
 
   const toggleCartSidebar = () => {
     setIsCartSidebarOpen((isCartSidebarOpen) => !isCartSidebarOpen);
@@ -25,7 +28,7 @@ export const Header = (): ReactElement => {
         <CartButton type="button" onClick={toggleCartSidebar}>
           <Handbag size={24} weight="light" />
 
-          <span>1</span>
+          {cart.length > 0 && <span>{cart.length}</span>}
         </CartButton>
       </Container>
 

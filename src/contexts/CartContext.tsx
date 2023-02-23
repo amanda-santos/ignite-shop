@@ -4,6 +4,7 @@ import { CartItem, Product } from "../types";
 
 export type CartContextProps = {
   cartItems: CartItem[];
+  cartItemsAmount: number;
   addToCart: (newItem: Product) => void;
   removeFromCart: (itemId: CartItem["id"]) => void;
 };
@@ -20,6 +21,11 @@ export const CartContextProvider = ({
   children,
 }: CartContextProviderProps): ReactElement => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  const cartItemsAmount = cartItems.reduce(
+    (total, item) => total + item.amount,
+    0
+  );
 
   const addToCart = (newItem: Product) => {
     const cartItemIndex = cartItems.findIndex(
@@ -59,7 +65,9 @@ export const CartContextProvider = ({
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+    <CartContext.Provider
+      value={{ cartItems, cartItemsAmount, addToCart, removeFromCart }}
+    >
       {children}
     </CartContext.Provider>
   );

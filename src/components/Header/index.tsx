@@ -12,12 +12,7 @@ import logoImg from "../../assets/logo.svg";
 
 export const Header = (): ReactElement => {
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
-  const { cartItems } = useCart();
-
-  const cartItemsAmount = cartItems.reduce(
-    (total, item) => total + item.amount,
-    0
-  );
+  const { cartItemsAmount } = useCart();
 
   const toggleCartSidebar = () => {
     setIsCartSidebarOpen((isCartSidebarOpen) => !isCartSidebarOpen);
@@ -30,16 +25,18 @@ export const Header = (): ReactElement => {
           <Image src={logoImg} alt="" />
         </Link>
 
-        <CartButton type="button" onClick={toggleCartSidebar}>
+        <CartButton
+          type="button"
+          onClick={toggleCartSidebar}
+          disabled={cartItemsAmount <= 0}
+        >
           <Handbag size={24} weight="light" />
 
-          {cartItems.length > 0 && <span>{cartItemsAmount}</span>}
+          {cartItemsAmount > 0 && <span>{cartItemsAmount}</span>}
         </CartButton>
       </Container>
 
-      {isCartSidebarOpen && (
-        <CartSidebar isOpen={isCartSidebarOpen} onClose={toggleCartSidebar} />
-      )}
+      {isCartSidebarOpen && <CartSidebar onClose={toggleCartSidebar} />}
     </>
   );
 };

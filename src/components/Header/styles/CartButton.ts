@@ -35,6 +35,11 @@ export const CartButton = styled("button", {
     left: 32,
   },
 
+  "&:disabled": {
+    opacity: 0.6,
+    cursor: 'not-allowed'
+  },
+
   "&:not(:disabled):hover": {
     opacity: 0.8,
     cursor: 'pointer'

@@ -51,7 +51,7 @@ export default function Home({ products }: HomeProps) {
               <footer>
                 <Link href={`/product/${product.id}`} prefetch={false}>
                   <strong>{product.name}</strong>
-                  <span>{product.price.value}</span>
+                  <span>{product.price.formattedValue}</span>
                 </Link>
 
                 <CartButton type="button" onClick={() => addToCart(product)}>
@@ -82,7 +82,8 @@ export const getStaticProps: GetStaticProps = async () => {
       imageUrl: product.images[0],
       price: {
         id: price.id,
-        value: formatPrice(price.unit_amount ?? 0),
+        value: price.unit_amount ?? 0,
+        formattedValue: formatPrice(price.unit_amount ?? 0),
       },
     };
   });

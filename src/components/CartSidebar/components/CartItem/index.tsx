@@ -31,7 +31,7 @@ export const CartItem = ({ item }: CartItemProps) => {
           <AmountBadge>{item.amount}</AmountBadge>
         </ItemTitle>
 
-        <h6>{item.price.value}</h6>
+        <h6>{item.price.formattedValue}</h6>
         <button type="button" onClick={() => removeFromCart(item.id)}>
           Remove
         </button>

@@ -1,19 +1,20 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/future/image";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import Stripe from "stripe";
 
 import { Product as ProductType } from "../../types";
 import { stripe } from "../../lib/stripe";
+import { formatPrice } from "../../utils/formatPrice";
+import { useCart } from "../../hooks/useCart";
+import { Button } from "../../components/Button";
 
 import {
   ImageContainer,
   ProductContainer,
   ProductDetails,
 } from "../../styles/pages/product";
-import { useRouter } from "next/router";
-import { formatPrice } from "../../utils/formatPrice";
-import { useCart } from "../../hooks/useCart";
 
 type ProductProps = {
   product: ProductType;
@@ -43,11 +44,11 @@ export default function Product({ product }: ProductProps) {
 
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price.value}</span>
+          <span>{product.price.formattedValue}</span>
 
           <p>{product.description}</p>
 
-          <button onClick={handleAddToCart}>Add to cart</button>
+          <Button onClick={handleAddToCart}>Add to cart</Button>
         </ProductDetails>
       </ProductContainer>
     </>
@@ -87,7 +88,8 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
     imageUrl: product.images[0],
     price: {
       id: price.id,
-      value: formatPrice(price.unit_amount ?? 0),
+      formattedValue: formatPrice(price.unit_amount ?? 0),
+      value: price.unit_amount ?? 0,
     },
   };
 

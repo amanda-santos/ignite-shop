@@ -5,7 +5,8 @@ export type Product = {
   description: string | null;
   price: {
     id: string;
-    value: string;
+    value: number;
+    formattedValue: string;
   };
 };
 

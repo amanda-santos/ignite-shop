@@ -3,8 +3,15 @@ import { X } from "phosphor-react";
 
 import { useCart } from "../../hooks/useCart";
 import { CartItem } from "./components/CartItem";
+import { formatPrice } from "../../utils/formatPrice";
 
-import { CartItemsContainer, CloseButton, Container } from "./styles";
+import {
+  CartItemsContainer,
+  CloseButton,
+  Container,
+  OrderInformationContainer,
+} from "./styles";
+import { Button } from "../Button";
 
 type CartSidebarProps = {
   onClose: () => void;
@@ -12,6 +19,13 @@ type CartSidebarProps = {
 
 export const CartSidebar = ({ onClose }: CartSidebarProps): ReactElement => {
   const { cartItems, cartItemsAmount } = useCart();
+
+  const totalPrice = formatPrice(
+    cartItems.reduce(
+      (total, cartItem) => total + cartItem.price.value * cartItem.amount,
+      0
+    )
+  );
 
   useEffect(() => {
     if (cartItemsAmount <= 0) {
@@ -30,7 +44,20 @@ export const CartSidebar = ({ onClose }: CartSidebarProps): ReactElement => {
           <CartItem key={item.id} item={item} />
         ))}
       </CartItemsContainer>
-      Total {cartItemsAmount}
+
+      <OrderInformationContainer>
+        <div>
+          <span>Number of items</span>
+          <strong>Total</strong>
+        </div>
+
+        <div className="align-items-flex-end">
+          <span>{cartItemsAmount}</span>
+          <strong>{totalPrice}</strong>
+        </div>
+      </OrderInformationContainer>
+
+      <Button type="submit">Finish order</Button>
     </Container>
   );
 };

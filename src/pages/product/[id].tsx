@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/future/image";
 import Head from "next/head";
 import Stripe from "stripe";
-import axios from "axios";
 
 import { Product as ProductType } from "../../types";
 import { stripe } from "../../lib/stripe";
@@ -15,6 +13,7 @@ import {
 } from "../../styles/pages/product";
 import { useRouter } from "next/router";
 import { formatPrice } from "../../utils/formatPrice";
+import { useCart } from "../../hooks/useCart";
 
 type ProductProps = {
   product: ProductType;
@@ -22,28 +21,10 @@ type ProductProps = {
 
 export default function Product({ product }: ProductProps) {
   const { isFallback } = useRouter();
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false);
+  const { addToCart } = useCart();
 
-  const handleBuyNowClick = async () => {
-    try {
-      setIsCreatingCheckoutSession(true);
-
-      const response = await axios.post("/api/checkout", {
-        priceId: product.price.id,
-      });
-
-      const { checkoutUrl } = response.data;
-
-      window.location.href = checkoutUrl;
-    } catch {
-      setIsCreatingCheckoutSession(false);
-
-      // TODO: Datadog or Sentry
-      alert(
-        "An error occurred while trying to buy this product. Please try again later."
-      );
-    }
+  const handleAddToCart = () => {
+    addToCart(product);
   };
 
   if (isFallback) {
@@ -66,12 +47,7 @@ export default function Product({ product }: ProductProps) {
 
           <p>{product.description}</p>
 
-          <button
-            disabled={isCreatingCheckoutSession}
-            onClick={handleBuyNowClick}
-          >
-            Buy now
-          </button>
+          <button onClick={handleAddToCart}>Add to cart</button>
         </ProductDetails>
       </ProductContainer>
     </>

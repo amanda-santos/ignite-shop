@@ -1,11 +1,10 @@
 import { ReactElement } from "react";
-import Image from "next/future/image";
-import Link from "next/link";
-import { Handbag, X } from "phosphor-react";
+import { X } from "phosphor-react";
 
-import { CloseButton, Container } from "./styles";
+import { CartItemsContainer, CloseButton, Container } from "./styles";
 
-import logoImg from "../../assets/logo.svg";
+import { useCart } from "../../hooks/useCart";
+import { CartItem } from "./components/CartItem";
 
 type CartSidebarProps = {
   isOpen: boolean;
@@ -16,6 +15,8 @@ export const CartSidebar = ({
   isOpen,
   onClose,
 }: CartSidebarProps): ReactElement | null => {
+  const { cartItems } = useCart();
+
   if (!isOpen) {
     return null;
   }
@@ -27,6 +28,12 @@ export const CartSidebar = ({
       </CloseButton>
 
       <h4>Cart</h4>
+
+      <CartItemsContainer>
+        {cartItems.map((item) => (
+          <CartItem key={item.id} item={item} />
+        ))}
+      </CartItemsContainer>
     </Container>
   );
 };

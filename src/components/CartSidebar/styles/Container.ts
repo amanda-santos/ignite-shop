@@ -17,6 +17,7 @@ export const Container = styled("aside", {
 
   h4: {
     fontSize: "$2xl",
+    marginBottom: "3.2rem"
   },
 
   "@lg": {

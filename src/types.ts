@@ -8,3 +8,7 @@ export type Product = {
     value: string;
   };
 };
+
+export type CartItem = Product & {
+  amount: number;
+}

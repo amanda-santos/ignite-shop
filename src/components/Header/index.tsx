@@ -12,7 +12,12 @@ import logoImg from "../../assets/logo.svg";
 
 export const Header = (): ReactElement => {
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
-  const { cart } = useCart();
+  const { cartItems } = useCart();
+
+  const cartItemsAmount = cartItems.reduce(
+    (total, item) => total + item.amount,
+    0
+  );
 
   const toggleCartSidebar = () => {
     setIsCartSidebarOpen((isCartSidebarOpen) => !isCartSidebarOpen);
@@ -28,7 +33,7 @@ export const Header = (): ReactElement => {
         <CartButton type="button" onClick={toggleCartSidebar}>
           <Handbag size={24} weight="light" />
 
-          {cart.length > 0 && <span>{cart.length}</span>}
+          {cartItems.length > 0 && <span>{cartItemsAmount}</span>}
         </CartButton>
       </Container>
 

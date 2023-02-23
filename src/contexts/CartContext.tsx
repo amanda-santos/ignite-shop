@@ -1,10 +1,11 @@
 import { createContext, ReactElement, ReactNode, useState } from "react";
 
-import { Product } from "../types";
+import { CartItem, Product } from "../types";
 
 export type CartContextProps = {
-  cart: Product[];
-  addToCart: (product: Product) => void;
+  cartItems: CartItem[];
+  addToCart: (newItem: Product) => void;
+  removeFromCart: (itemId: CartItem["id"]) => void;
 };
 
 type CartContextProviderProps = {
@@ -18,16 +19,47 @@ export const CartContext = createContext<CartContextProps>(
 export const CartContextProvider = ({
   children,
 }: CartContextProviderProps): ReactElement => {
-  const [cart, setCart] = useState<Product[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  const addToCart = (product: Product) => {
-    setCart([...cart, product]);
+  const addToCart = (newItem: Product) => {
+    const cartItemIndex = cartItems.findIndex(
+      (cartItem) => cartItem.id === newItem.id
+    );
 
-    console.log(cart);
+    if (cartItemIndex === -1) {
+      setCartItems([
+        ...cartItems,
+        {
+          ...newItem,
+          amount: 1,
+        },
+      ]);
+    } else {
+      const newCartItems = cartItems.map((cartItem) => {
+        if (cartItem.id === newItem.id) {
+          return {
+            ...newItem,
+            amount: cartItem.amount + 1,
+          };
+        }
+
+        return cartItem;
+      });
+
+      setCartItems(newCartItems);
+    }
+  };
+
+  const removeFromCart = (itemId: CartItem["id"]) => {
+    const newCartItems = cartItems.filter((cartItem) => cartItem.id !== itemId);
+
+    setCartItems(newCartItems);
+
+    console.log(newCartItems);
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );

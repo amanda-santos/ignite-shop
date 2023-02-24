@@ -11,13 +11,13 @@ export const SuccessContainer = styled("main", {
   width: "100%",
 
   h1: {
-    fontSize: "$2xl",
+    fontSize: "$4xl",
     color: "$gray100",
     marginBottom: "0",
   },
 
   p: {
-    fontSize: "$xl",
+    fontSize: "$2xl",
     color: "$gray300",
     maxWidth: 560,
     textAlign: "center",
@@ -28,7 +28,7 @@ export const SuccessContainer = styled("main", {
   a: {
     display: "block",
     marginTop: "3rem",
-    fontSize: "$lg",
+    fontSize: "$2xl",
     color: "$green500",
     textDecoration: "none",
     fontWeight: "bold",

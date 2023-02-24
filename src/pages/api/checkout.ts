@@ -1,18 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
+
 import { stripe } from "../../lib/stripe";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { priceId } = req.body;
+  const { orderedProducts } = req.body;
 
   if (req.method !== "POST") {
     return res.status(405).end();
   }
 
-  if (!priceId) {
-    return res.status(400).json({ error: "Price not found." });
+  if (!orderedProducts) {
+    return res.status(400).json({ error: "No product was found." });
   }
 
   const successUrl = `${process.env.NEXT_URL}/success?session_id={CHECKOUT_SESSION_ID}`;
@@ -22,12 +23,7 @@ export default async function handler(
     success_url: successUrl,
     cancel_url: cancelUrl,
     mode: "payment",
-    line_items: [
-      {
-        price: priceId,
-        quantity: 1,
-      },
-    ],
+    line_items: orderedProducts,
   });
 
   return res.status(201).json({

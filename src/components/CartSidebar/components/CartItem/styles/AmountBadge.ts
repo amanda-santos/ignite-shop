@@ -7,8 +7,7 @@ export const AmountBadge = styled("span", {
 
   backgroundColor: "$green500",
   padding: "0.4rem 0.6rem",
-  aspectRatio: 1 / 1,
-  borderRadius: "100%",
+  borderRadius: "1.6rem",
 
   fontSize: "$lg",
   fontWeight: "700",

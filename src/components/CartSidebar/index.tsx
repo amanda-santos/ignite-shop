@@ -1,9 +1,11 @@
-import { ReactElement, useEffect } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { X } from "phosphor-react";
+import axios from "axios";
 
 import { useCart } from "../../hooks/useCart";
 import { CartItem } from "./components/CartItem";
 import { formatPrice } from "../../utils/formatPrice";
+import { Button } from "../Button";
 
 import {
   CartItemsContainer,
@@ -11,7 +13,6 @@ import {
   Container,
   OrderInformationContainer,
 } from "./styles";
-import { Button } from "../Button";
 
 type CartSidebarProps = {
   onClose: () => void;
@@ -19,6 +20,8 @@ type CartSidebarProps = {
 
 export const CartSidebar = ({ onClose }: CartSidebarProps): ReactElement => {
   const { cartItems, cartItemsAmount } = useCart();
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false);
 
   const totalPrice = formatPrice(
     cartItems.reduce(
@@ -26,6 +29,34 @@ export const CartSidebar = ({ onClose }: CartSidebarProps): ReactElement => {
       0
     )
   );
+
+  const handleFinishOrderClick = async () => {
+    try {
+      setIsCreatingCheckoutSession(true);
+
+      const orderedProducts = cartItems.map((cartItem) => {
+        return {
+          price: cartItem.price.id,
+          quantity: cartItem.amount,
+        };
+      });
+
+      const response = await axios.post("/api/checkout", {
+        orderedProducts,
+      });
+
+      const { checkoutUrl } = response.data;
+
+      window.location.href = checkoutUrl;
+    } catch {
+      setIsCreatingCheckoutSession(false);
+
+      // TODO: Datadog or Sentry
+      alert(
+        "An error occurred while trying to complete this order. Please try again later."
+      );
+    }
+  };
 
   useEffect(() => {
     if (cartItemsAmount <= 0) {
@@ -57,7 +88,13 @@ export const CartSidebar = ({ onClose }: CartSidebarProps): ReactElement => {
         </div>
       </OrderInformationContainer>
 
-      <Button type="submit">Finish order</Button>
+      <Button
+        type="submit"
+        disabled={isCreatingCheckoutSession}
+        onClick={handleFinishOrderClick}
+      >
+        Finish order
+      </Button>
     </Container>
   );
 };

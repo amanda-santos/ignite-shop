@@ -5,7 +5,7 @@ export const OrderInformationContainer = styled("div", {
   alignItems: "center",
   justifyContent: "space-between",
 
-  margin: 'auto 0 3.2rem 0',
+  margin: '6.4rem 0 3.2rem 0',
 
   div: {
     display: "flex",

@@ -26,9 +26,11 @@ export const CartItem = ({ item }: CartItemProps) => {
 
       <ItemInfo>
         <ItemTitle>
-          <span>{item.name}</span>
+          <h6>{item.name}</h6>
 
-          <AmountBadge>{item.amount}</AmountBadge>
+          <AmountBadge>
+            {item.amount} {item.amount > 1 ? "units" : "unit"}
+          </AmountBadge>
         </ItemTitle>
 
         <h6>{item.price.formattedValue}</h6>

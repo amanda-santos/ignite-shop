@@ -8,7 +8,6 @@ export const Container = styled("aside", {
   padding: "3.2rem 4.8rem",
 
   width: "100%",
-  height: "100vh",
 
   position: "absolute",
   top: 0,

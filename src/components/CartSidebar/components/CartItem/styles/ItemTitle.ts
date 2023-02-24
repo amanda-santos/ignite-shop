@@ -2,7 +2,8 @@ import { styled } from "../../../../../styles";
 
 export const ItemTitle = styled("div", {
   display: "flex",
-  alignItems: "center",
+  flexDirection: "column",
+  alignItems: "flex-start",
   justifyContent: "space-between",
-  gap: "0.8rem",
+  gap: "0.8rem"
 });

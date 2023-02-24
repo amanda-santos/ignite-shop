@@ -55,7 +55,9 @@ Technologies used to develop this project:
 
 ## 🖥 Preview
 
+https://user-images.githubusercontent.com/49074930/221276545-abc5b399-5f28-46a9-856f-46a3ffe38f52.mp4
 
+https://user-images.githubusercontent.com/49074930/221276570-209ccd81-6115-4b14-9925-8a659490a31c.mp4
 
 Click <a href="https://ignite-shop-amanda-santos.vercel.app/">here</a> to see it live 📺
 
